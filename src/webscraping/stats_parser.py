@@ -2,11 +2,11 @@ from bs4 import BeautifulSoup
 import csv
 import os
 
-data_folder = "../../data/SciMaps-Webalizer-Data/"
-out_data_folder = "../../data/output/"
+data_folder = "C://Users//Sharad//Desktop//Information Visualization//Client Project//Log files//"
+out_data_folder = "C://Users//Sharad//Desktop//Information Visualization//Client Project//Log files//Parsed"
 
 def extract_data(filename):
-    content = open(data_folder + filename, 'r').read()
+    content = open(data_folder + filename, 'r', encoding="utf8").read()
     soup = BeautifulSoup(content, 'html.parser')
 
     ATag = soup.find("a", {"name":"DAYSTATS"})
@@ -15,7 +15,7 @@ def extract_data(filename):
     for row in TableElement.find_all('tr'):
         rows.append([val.text.encode('utf8') for val in row.find_all('td')])
 
-    with open('output_file.csv', 'wb') as f:
+    with open('output_file.csv', 'w') as f:
         writer = csv.writer(f)
         writer.writerows(row for row in rows if row)
 
@@ -28,7 +28,7 @@ def extract_data(filename):
     index = 0
     file_index = 0
     out_file_name_prefix = filename.replace(".html", "_")
-    f = open(out_data_folder + out_file_name_prefix + out_file_names[file_index], 'wb')
+    f = open(out_data_folder + out_file_name_prefix + out_file_names[file_index], 'w')
     writer = csv.writer(f)
 
     while(len(rows[index]) == 0):
@@ -39,7 +39,7 @@ def extract_data(filename):
         if(len(rows[index]) == 0):
             file_index = file_index + 1
             if(file_index < len(out_file_names)-1):
-                f = open(out_data_folder + out_file_name_prefix + out_file_names[file_index],'wb')
+                f = open(out_data_folder + out_file_name_prefix + out_file_names[file_index],'w')
                 writer = csv.writer(f)
             while(len(rows[index]) == 0):
                 index += 1;
